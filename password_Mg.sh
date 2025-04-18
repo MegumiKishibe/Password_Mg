@@ -1,12 +1,8 @@
 #!/bin/bash
         echo "パスワードマネージャーへようこそ！"
-        
-        echo " Enter your name:"
-                read name       > service_name.txt
-        echo " Enter your username:"
-                read username   > user_name.txt
-        echo " Enter your password:"
-                read password   >pass_word.txt
+	read -p "Enter your name:" name 
+        read -p " Enter your username:"  username
+        read -p " Enter your password:"  passwo
                 
         echo "Thank you!"
         
