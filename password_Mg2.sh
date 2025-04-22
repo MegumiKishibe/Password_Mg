@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 	echo "パスワードマネージャーへようこそ！"
 	while true; do
 	echo "次の選択肢から入力してください(Add Password/Get Password/Exit)"
@@ -12,10 +13,6 @@
 			echo "ユーザー名を入力してください："
 			read username
 			echo "$username" >> user_name.txt
-
-			echo "パスワードを入力してください："
-			read password
-			echo "$password" >> pass_word.txt
 
 			echo "パスワードの追加は成功しました。"
 
@@ -46,6 +43,41 @@
 元コード：find ./ -type f -name 'service_name.txt' | xargs grep -n --color=auto "${service_name}"
 修正後  ：line=$(grep -n "^${service_name}$" sevice_name.txt | cut -d: -f1)
 解説	：line=$(grep -n "検索条件" "検索対象" | cut -d: -f1)
+=======
+                        echo "パスワードを入力してください："
+                        read password
+                        echo "$password" >> pass_word.txt
+
+                        echo "パスワードの追加は成功しました。"
+
+                elif [ "$personal_info" == "Get Password" ]; then
+                        echo "サービス名を入力してください："
+                        read service_name
+
+                        line=$(grep -n "^${service_name}$" service_name.txt | cut -d: -f1) # *
+
+                        if [ -z "$line" ]; then #**
+                                echo "そのサービス名は登録されていません。"
+
+                        else
+                                echo "サービス名：$(sed -n "${line}p" service_name.txt)" # ***
+                                echo "ユーザー名：$(sed -n "${line}p" user_name.txt)"
+                                echo "パスワード：$(sed -n "${line}p" pass_word.txt)"
+                        fi
+
+                elif [ "$personal_info" == "Exit" ]; then
+                        echo "Thank you!"
+                        exit 0
+
+                else
+                        echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
+                fi
+        done
+
+# *標準入力からservice_name.txtの何行目にあるかを調べたい。lineコマンド
+元コード：find ./ -type f -name 'service_name.txt' | xargs grep -n --color=auto "${service_name}"
+修正後  ：line=$(grep -n "^${service_name}$" sevice_name.txt | cut -d: -f1)
+解説    ：line=$(grep -n "検索条件" "検索対象" | cut -d: -f1)
 line=$(...)：コマンドの結果を変数に代入/line以下が変数になってる！lineには見つけた行番号が代入される。
 grep：ファイルの中からキーワードを検索。（catはファイルを検索するコマンド）
 -n　：マッチした行の行番号も表示。
