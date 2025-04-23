@@ -1,5 +1,11 @@
 mg
+<<<<<<< HEAD
 
 
 dogschool
 DogShowerService
+=======
+doggiesMart
+Goldenlove
+sleepydole
+>>>>>>> pullrequest

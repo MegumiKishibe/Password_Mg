@@ -1,5 +1,11 @@
 mg
+<<<<<<< HEAD
 kishibe
 megumi
 doggies
 DSS
+=======
+doggylover
+Goldenlover
+powernap
+>>>>>>> pullrequest
