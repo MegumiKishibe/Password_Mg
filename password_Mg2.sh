@@ -16,6 +16,7 @@
                         echo "パスワードを入力してください："
                         read password
                         echo "$password" >> pass_word.txt
+			gpg --yes --symmetric --chipher-algo AES256 --output pass_word.txt.gpg pass_word.txt
 
                         echo "パスワードの追加は成功しました。"
 
@@ -29,9 +30,13 @@
                                 echo "そのサービス名は登録されていません。"
 
                         else
+				gpg --quiet --decrypt pass_word.txt.gpg > pass_word.txt
+
                                 echo "サービス名：$(sed -n "${line}p" service_name.txt)" # ***
                                 echo "ユーザー名：$(sed -n "${line}p" user_name.txt)"
                                 echo "パスワード：$(sed -n "${line}p" pass_word.txt)"
+
+				rm pass_word.txt
                         fi
 
                 elif [ "$personal_info" == "Exit" ]; then
@@ -42,7 +47,20 @@
                         echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
                 fi
         done
+#-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+mDMEaAjXvxYJKwYBBAHaRw8BAQdAOVexEa70bT9M3bxJqG1YAAhFPed+m8r7lkr+
+RCS6xja0Jk1lZ3VtaSBLaXNoaWJlIDxLaXNoaWJlMDQxN0BnbWFpbC5jb20+iJkE
+ExYKAEEWIQQHcivkSWCkNduXAM+Rx8xNDxtKCQUCaAjXvwIbAwUJBaOagAULCQgH
+AgIiAgYVCgkICwIEFgIDAQIeBwIXgAAKCRCRx8xNDxtKCZ8SAP95Mo1jcDwivQk/
+gJtz0WBMG0dCj8UaBrjHvE8RmQfGhwEAzav85avRxKv4lxA5NUentEJ8hvk8jzK0
+ay5dobR3iQG4OARoCNe/EgorBgEEAZdVAQUBAQdAqpkaAiyz8a9r9Wtt7jFvpSVB
+BmC9J5xP+iMUtjyDQ08DAQgHiH4EGBYKACYWIQQHcivkSWCkNduXAM+Rx8xNDxtK
+CQUCaAjXvwIbDAUJBaOagAAKCRCRx8xNDxtKCZDWAP43rvjns6EF8caEqJW02odW
+LXd02uRUOu8In8BJa4N3jQD+Lze/JxC7l5DVwdCnHAyRR/cQVEG8fPaduT4sBqFL
+hAQ=
+=rCot
+-----END PGP PUBLIC KEY BLOCK-----
 # *標準入力からservice_name.txtの何行目にあるかを調べたい。lineコマンド
 元コード：find ./ -type f -name 'service_name.txt' | xargs grep -n --color=auto "${service_name}"
 修正後  ：line=$(grep -n "^${service_name}$" sevice_name.txt | cut -d: -f1)
@@ -76,3 +94,5 @@ cut：決まったルールで文字列を分割して、必要な部分だけ�
                         -n：通常の出力を抑制（何も表示しない）
                         “${line}p”：指定した行だけをprint(表示）する
                         ex) sed -n “3p” service_name.txt→service_name.txtの３行目だけを表示する
+				#--encryptは「公開鍵暗号方式」：メールアドレスのGPG公開鍵がローカルにインポートされている必要有。
+				 --symmetricは「対称鍵方式」：対話式
